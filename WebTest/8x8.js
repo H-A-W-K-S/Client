@@ -1,5 +1,8 @@
-
-var cells = [
+// Quick note...
+// this code is godawful. a lot of it is from before i learned let > var
+// a lot of this code is ported over from the 4x4 version so obviously it will not work.
+// this code is quite sloppy, poorly-documented and really not for show 
+var cells = [ // there is definitely a better way to do this
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
 
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
