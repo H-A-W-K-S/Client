@@ -1,0 +1,47 @@
+<!Doctype HTML>
+<html>
+    <style>
+
+.container {
+  display: inline-block;
+  background: white;
+
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(8, 12vmin);
+  grid-template-rows: repeat(8, 12vmin);
+}
+.cell {
+   /* center the cell content */
+  border-radius: 1.1rem;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  font-family: Arial;
+  font-size: 3rem;
+  font-weight: bold;
+  border-width:10px;
+  margin:0.5vmin;
+}
+
+.grid .btn {
+  position: absolute;
+  top: 72px;
+  left: 72px;
+  background-color: #555;
+  color: white;
+  font-size: 15px;
+  padding: 7px 11px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+    </style>
+    <div class="container"> 
+        <div class="grid" id="myGrid">
+        </div>
+      </div>
+      <br>
+    <script src="8x8.js"></script>
+</html>
