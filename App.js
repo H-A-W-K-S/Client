@@ -1,26 +1,37 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
+import WelcomeScreen from "./app/screens/WelcomeScreen";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import StartScreen from "./app/screens/StartScreen";
 
-export default function App() {
+const Stack = createNativeStackNavigator();
+
+const StackNavigator = (
+  <Stack.Navigator>
+    <Stack.Screen
+      name="Home"
+      component={WelcomeScreen} // <----
+    />
+    <Stack.Screen
+      name="Start"
+      component={StartScreen} // <----
+    />
+  </Stack.Navigator>
+);
+
+function App() {
   return (
-    <View style={styles.container}>
-      <Text>This is our prototype app</Text>
-      <Text>Papa</Text>
-      <Text>Nathanael</Text>
-      <Text>Caleb</Text>
-      <Text>Haim</Text>
-      <Text>Jacob</Text>
-
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen name="Home" component={WelcomeScreen} />
+        {/*<Stack.Screen name="Home">
+          {(props) => <HomeScreen {...props} extraData={someData} />}
+</Stack.Screen>*/}
+        <Stack.Screen name="Start" component={StartScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
+export default App;
