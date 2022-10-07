@@ -16,7 +16,7 @@ function WelcomeScreen({ navigation }) {
       source={require("../assets/ffffff.png")}
     >
       <View style={styles.logoContainer}>
-        <Image style={styles.logo} source={require("../assets/logo.png")} />
+        <Image style={styles.logo} source={require("../assets/logo.png")} />{/*This is the red and blue logo*/}
         <Text>Something Catchy</Text>
       </View>
       <View style={styles.loginButton}>
@@ -24,7 +24,7 @@ function WelcomeScreen({ navigation }) {
           <Text>Login</Text>
         </TouchableOpacity>
       </View>
-    </ImageBackground>
+    </ImageBackground >
   );
 }
 
