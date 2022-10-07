@@ -4,6 +4,7 @@ import WelcomeScreen from "./app/screens/WelcomeScreen";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import StartScreen from "./app/screens/StartScreen";
+import LeaderScreen from "./app/screens/LeaderScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -17,6 +18,10 @@ const StackNavigator = (
       name="Start"
       component={StartScreen} // <----
     />
+    <Stack.Screen
+      name="LeaderScreen"
+      component={LeaderScreen}
+    />
   </Stack.Navigator>
 );
 
@@ -29,6 +34,7 @@ function App() {
           {(props) => <HomeScreen {...props} extraData={someData} />}
 </Stack.Screen>*/}
         <Stack.Screen name="Start" component={StartScreen} />
+        <Stack.Screen name="LeaderScreen" component={LeaderScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
