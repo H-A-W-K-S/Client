@@ -1,8 +1,5 @@
-// Quick note...
-// this code is godawful. a lot of it is from before i learned let > var
-// a lot of this code is ported over from the 4x4 version so obviously it will not work.
-// this code is quite sloppy, poorly-documented and really not for show 
-var cells = [ // there is definitely a better way to do this
+
+let cells = [
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
 
     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,],
@@ -35,35 +32,100 @@ for (let rx = 0; rx < 8; rx++){
 //     ["13", "14", "15", "16"]
 // ];
 
-var l2squares = [
-    [false, false, false],
-    [false, false, false],
-    [false, false, false]
+//7x7 grid of l2squares
+let l2squares = [
+    [false, false, false, false, false, false, false],
+    [false, false, false, false, false, false, false],
+    [false, false, false, false, false, false, false],
+    [false, false, false, false, false, false, false],
+    [false, false, false, false, false, false, false],
+    [false, false, false, false, false, false, false],
+    [false, false, false, false, false, false, false]
 ];
 
-drawgrid();
+//5x5 grid of l3squares
+let l3squares = [
+    [false, false, false, false, false],
+    [false, false, false, false, false],
+    [false, false, false, false, false],
+    [false, false, false, false, false],
+    [false, false, false, false, false]
+];
 
+//one l4 square (game is done)
+let l4square = false;
+
+let thegrid = document.getElementById("myGrid");
+let innersquare = "";
+
+drawgrid();
+drawButtons();
 
 
 function drawgrid(){
-
-var i = 0;
-var j = 0;
-var bcounter = 1;
-var innersquare = "";
-while(i < 8){
-    while(j < 8){ 
-        innersquare = innersquare + "<div class='cell' style='background:" + getColor(cells[i][j]) + "' id='" + i + "_" + j + "'>" + cells[i][j] + "</div>";
-            
-        j++;
+    innersquare = "";
+    for(let a = 0; a < 8; a++){
+        for(let b = 0; b < 8; b++){ 
+            innersquare += "<div class='cell' style='background:" + getColor(cells[a][b]) + "' id='" + a + "_" + b + "'>" + cells[a][b] + "</div>";
+        }
     }
-    j=0;
-    i++;
+    thegrid.innerHTML = innersquare;
 }
-var thegrid = document.getElementById("myGrid");
-thegrid.innerHTML = innersquare;
-findbuttons();
+
+
+function drawButtons(){
+    for(let bx = 0; bx < 7; bx++){
+        for(let by = 0; by < 7; by++){
+            document.write("<button class='btn' onclick='buttonClick(" + bx + ", " + by + ")' id='b" + bx + "_" + by + "' style='top: " + (((12)*(by))+7.5) + "vmin;left:" + (((12)*(bx))+7.5) + "vmin;'></button>");
+        }
+    }
 }
+
+function drawBoxes(){
+    let innerMain = "";
+    for(let lx = 0; lx < 7; lx++){
+        for(let ly = 0; ly < 7; ly++){
+            if(l2squares[ly][lx]){
+                innerMain += ("<div class='box' style='background-color:" + getColor(cells[ly][lx]) + "; top: " + (((12)*(ly))+1.32) + "vmin;left:" + (((12)*(lx))+1.32) + "vmin;'></div>");
+            }
+        }
+    }
+    let boxes = document.getElementById("boxes");
+    boxes.innerHTML = (innerMain);
+
+}
+
+function buttonClick (y, x){
+    //alert(x + "_" + y);
+    var result = merge([
+        cells[x][y],    cells[x+1][y],
+        cells[x][y+1],  cells[x+1][y+1]
+    ])
+
+    if(result != "none"){
+        cells[x][y]     = result;
+        cells[x+1][y]   = result;
+        cells[x][y+1]   = result;
+        cells[x+1][y+1] = result;
+        l2squares[x][y] = true;
+        drawgrid();
+        drawBoxes();
+    }
+}
+
+// function noL2Conflicts (x,y){
+//     try{
+//         return  !l2squares[y][x+1]      &&
+//                 !l2squares[y+1][x]      &&
+//                 !l2squares[y+1][x+1]    &&
+//                 !l2squares[y][x-1]      && 
+//                 !l2squares[y-1][x]      &&
+//                 !l2squares[y-1][x-1]
+//     } catch {
+
+//     }
+// }
+
 
 function getColor(l){
     switch(l){
@@ -83,144 +145,6 @@ function getColor(l){
             return "#F8C676";
         break;
     }
-}
-
-function findbuttons(){
-
-var b1 = document.getElementById("b1");
-b1.addEventListener("click", function(){
-    var arr = [cells[0][0], cells[0][1], cells[1][0], cells[1][1]];
-    var result = merge(arr);
-    if(result != "none"){
-        cells[0][0] = result;
-        cells[0][1] = result;
-        cells[1][0] = result;
-        cells[1][1] = result;
-        l2squares[0][0] = true;
-        drawgrid();
-    }
-});
-
-var b2 = document.getElementById("b2");
-b2.addEventListener("click", function(){
-    var arr = [cells[0][1], cells[1][1], cells[0][2], cells[1][2]];
-    console.log(arr);
-    var result = merge(arr);
-    if(result != "none"){
-        cells[0][1] = result;
-        cells[1][1] = result;
-        cells[0][2] = result;
-        cells[1][2] = result;
-        l2squares[0][1] = true;
-        drawgrid();
-    }
-});
-
-var b3 = document.getElementById("b3");
-b3.addEventListener("click", function(){
-    var arr = [cells[0][2], cells[1][2], cells[0][3], cells[1][3]];
-    console.log(arr);
-    var result = merge(arr);
-    if(result != "none"){
-        cells[0][2] = result;
-        cells[1][2] = result;
-        cells[0][3] = result;
-        cells[1][3] = result;
-        l2squares[0][2] = true;
-        drawgrid();
-    }
-});
-
-var b4 = document.getElementById("b4");
-b4.addEventListener("click", function(){
-    var arr = [cells[1][0], cells[2][0], cells[1][1], cells[2][1]];
-    console.log(arr);
-    var result = merge(arr);
-    if(result != "none"){
-        cells[1][0] = result;
-        cells[2][0] = result;
-        cells[1][1] = result;
-        cells[2][1] = result;
-        l2squares[1][0] = true;
-        drawgrid();
-    }
-});
-
-var b5 = document.getElementById("b5");
-b5.addEventListener("click", function(){
-    var arr = [cells[1][1], cells[2][1], cells[1][2], cells[2][2]];
-    console.log(arr);
-    var result = merge(arr);
-    if(result != "none"){
-        cells[1][1] = result;
-        cells[2][1] = result;
-        cells[1][2] = result;
-        cells[2][2] = result;
-        l2squares[1][1] = true;
-        drawgrid();
-    }
-});
-
-var b6 = document.getElementById("b6");
-b6.addEventListener("click", function(){
-    var arr = [cells[1][2], cells[2][2], cells[1][3], cells[2][3]];
-    console.log(arr);
-    var result = merge(arr);
-    if(result != "none"){
-        cells[1][2] = result;
-        cells[2][2] = result;
-        cells[1][3] = result;
-        cells[2][3] = result;
-        l2squares[1][2] = true;
-        drawgrid();
-    }
-});
-
-var b7 = document.getElementById("b7");
-b7.addEventListener("click", function(){
-    var arr = [cells[2][0], cells[3][0], cells[2][1], cells[3][1]];
-    console.log(arr);
-    var result = merge(arr);
-    if(result != "none"){
-        cells[2][0] = result;
-        cells[3][0] = result;
-        cells[2][1] = result;
-        cells[3][1] = result;
-        l2squares[2][0] = true;
-        drawgrid();
-    }
-});
-
-var b8 = document.getElementById("b8");
-b8.addEventListener("click", function(){
-    var arr = [cells[2][1], cells[3][1], cells[2][2], cells[3][2]];
-    console.log(arr);
-    var result = merge(arr);
-    if(result != "none"){
-        cells[2][1] = result;
-        cells[3][1] = result;
-        cells[2][2] = result;
-        cells[3][2] = result;
-        l2squares[2][1] = true;
-        drawgrid();
-    }
-});
-
-var b9 = document.getElementById("b9");
-b9.addEventListener("click", function(){
-    var arr = [cells[2][2], cells[3][2], cells[2][3], cells[3][3]];
-    console.log(arr);
-    var result = merge(arr);
-    if(result != "none"){
-        cells[2][2] = result;
-        cells[3][2] = result;
-        cells[2][3] = result;
-        cells[3][3] = result;
-        l2squares[2][2] = true;
-        drawgrid();
-    }
-}); //end find
-
 }
 
 function randomColor(){
