@@ -55,15 +55,14 @@ let l3squares = [
 //one l4 square (game is done)
 let l4square = false;
 
-let thegrid = document.getElementById("myGrid");
-let innersquare = "";
 
 drawgrid();
 drawButtons();
 
 
 function drawgrid(){
-    innersquare = "";
+    let thegrid = document.getElementById("myGrid");
+    let innersquare = "";
     for(let a = 0; a < 8; a++){
         for(let b = 0; b < 8; b++){ 
             innersquare += "<div class='cell' style='background:" + getColor(cells[a][b]) + "' id='" + a + "_" + b + "'>" + cells[a][b] + "</div>";
