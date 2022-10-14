@@ -1,20 +1,30 @@
-import React from "react";
+import * as React from "react";
+import { useState } from 'react';
 import { NavigationContainer } from "@react-navigation/native";
-import { Image, ImageBackground, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Image, ImageBackground, FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { BsQuestionCircle } from 'react-icons/fa';
 
 function StartScreen({ navigation, props }) {
 
+  const [players, setPlayers] = useState([
+    {
+      namm: "John", score: 61
+    },
+    {
+      namm: "Mary", score: 59
+    },
+  ]);
+
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => navigation.navigate("LeaderScreen")}>
-        <View style={styles.settingsIcon}></View>
-      </TouchableOpacity>
 
-
+      <FlatList data={players} renderItem={({ item }) => (
+        <TouchableOpacity onPress={() => navigation.navigate("LeaderScreen", item)}>
+          <View style={styles.settingsIcon}></View>
+        </TouchableOpacity>
+      )}
+      />
       <View style={styles.helpIcon}>
-
-        {/*<BsQuestionCircle /> ?*/}
       </View>
     </View>
   );

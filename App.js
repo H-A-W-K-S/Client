@@ -30,9 +30,6 @@ function App() {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
         <Stack.Screen name="Home" component={WelcomeScreen} />
-        {/*<Stack.Screen name="Home">
-          {(props) => <HomeScreen {...props} extraData={someData} />}
-</Stack.Screen>*/}
         <Stack.Screen name="Start" component={StartScreen} />
         <Stack.Screen name="LeaderScreen" component={LeaderScreen} />
       </Stack.Navigator>

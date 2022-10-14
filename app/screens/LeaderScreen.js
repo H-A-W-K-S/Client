@@ -1,12 +1,12 @@
 import React from "react";
+import { FaRoute } from "react-icons/fa";
 import { Text, View, StyleSheet, FlatList, useState } from "react-native";
+import { roundToNearestPixel } from "react-native/Libraries/Utilities/PixelRatio";
 
-function LeaderScreen({ navigation }) {
-
+export default function LeaderScreen({ route }) {
   return (
     <View>
-      <Text>James: 60,</Text>
-      <Text>Harry: 59,</Text>
+      <Text>{route.params.namm}, {route.params.score}</Text>
     </View>
   );
 }
@@ -15,4 +15,3 @@ const styles = StyleSheet.create({
 
 })
 
-export default LeaderScreen;
