@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Image,
   ImageBackground,
@@ -8,7 +8,9 @@ import {
   View,
 } from "react-native";
 
-function WelcomeScreen({ navigation }) {
+export default function WelcomeScreen({ navigation }) {
+
+
   return (
     <ImageBackground
       resizeMode="contain"
@@ -16,12 +18,12 @@ function WelcomeScreen({ navigation }) {
       source={require("../assets/ffffff.png")}
     >
       <View style={styles.logoContainer}>
-        <Image style={styles.logo} source={require("../assets/logo.png")} />{/*This is the red and blue logo*/}
+        <Image style={styles.logo} source={require("../assets/logo.png")} />{/*This is the red and blue "Merge Split" logo*/}
         <Text>Something Catchy</Text>
       </View>
       <View style={styles.loginButton}>
         <TouchableOpacity onPress={() => navigation.navigate("Start")}>
-          <Text>Login</Text>
+          <Text>Play</Text>
         </TouchableOpacity>
       </View>
     </ImageBackground >
@@ -49,4 +51,4 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 });
-export default WelcomeScreen;
+
