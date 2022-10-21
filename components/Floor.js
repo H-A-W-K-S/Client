@@ -3,7 +3,7 @@ import React from "react";
 import { View } from "react-native";
 
 const Floor = props => {
-    const widthBody = props.body.bounds.max.x - props.body.bounds.min.x// wil get the maximum vluae within the rectangle
+    const widthBody = props.body.bounds.max.x - props.body.bounds.min.x// wil get the maximum value within the rectangle
     const heightBody = props.body.bounds.max.y - props.body.bounds.min.y
 
     const xBody = props.body.position.x - widthBody / 2
