@@ -1,0 +1,1 @@
+document.write("<h1>Here is some text!</h1>");
