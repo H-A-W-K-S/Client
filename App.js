@@ -4,9 +4,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SignIn from './screens/SignIn';
 import SignUp from './screens/SignUp';
 import MainPage from './screens/MainPage';
-import MergeSplit from './screens/MergeSplit';
+import Game1 from './screens/Game1';
 import Leaderboard from './screens/LeaderBoard';
-import Settings from './screens/Setting';
 
 const Stack = createNativeStackNavigator();
 
@@ -16,10 +15,9 @@ const App: () => Node = () => {
       <Stack.Navigator >
         <Stack.Screen name="mainPage" component={MainPage} options={{ headerShown: false }} />
         <Stack.Screen name="leaderboard" component={Leaderboard} options={{ headerShown: false }} />
-        <Stack.Screen name="mergeSplit" component={MergeSplit} />
+        <Stack.Screen name="game1" component={Game1} />
         <Stack.Screen name="signIn" component={SignIn} options={{ headerShown: false }} />
         <Stack.Screen name="signUp" component={SignUp} options={{ headerShown: false }} />
-        <Stack.Screen name="settings" component={Settings} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

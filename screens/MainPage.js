@@ -10,7 +10,7 @@ const MainPage = ({ navigation }) => {
             '#00FDFF', '#FFFFFF', '#FF4200']} degree={90}>
             <Image style={styles.ImageStyle} source={require("../assets/LoginLogo.png")} />
             <View style={styles.FormView}>
-                <TouchableOpacity onPress={() => navigation.navigate('mergeSplit')} style={styles.Button}>
+                <TouchableOpacity onPress={() => navigation.navigate('game1')} style={styles.Button}>
                     <Icon style={{ color: '#000' }} name="play" size={60} color={'#fff'} />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigation.navigate('leaderboard')} style={styles.Button}>
@@ -19,7 +19,7 @@ const MainPage = ({ navigation }) => {
                 <TouchableOpacity style={styles.Button} onPress={() => navigation.navigate('signIn')}>
                     <Text style={styles.ButtonText}>Log in/Sign up</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.Button} onPress={() => navigation.navigate('settings')}>
+                <TouchableOpacity style={styles.Button}>
                     <Icons style={{ color: '#000' }} name="setting" size={60} color={'#fff'} />
                 </TouchableOpacity>
             </View>
