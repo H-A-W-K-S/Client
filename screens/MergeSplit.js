@@ -1,13 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { GameEngine } from 'react-native-game-engine';
-import entities from '../entities/index';
-import Physics from '../physics';
 import { WebView } from 'react-native-webview';
 
 
-const Game1 = ({navigation}) => {
+const MergeSplit = ({navigation}) => {
   let documentHTML = `
   <style>
   .box {
@@ -219,4 +214,4 @@ function merge(arr){
   );
 }
 
-export default Game1;
+export default MergeSplit;

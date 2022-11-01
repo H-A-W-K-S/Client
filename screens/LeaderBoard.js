@@ -11,7 +11,18 @@ const Leaderboard = ({ navigation }) => {
             <ScrollView style={styles.BottomView}>
                 <BackIcon onPress={() => navigation.navigate('mainPage')} style={styles.Icon} name="chevron-left" size={60} color={'#fff'} />
                 <Text style={styles.Heading}>Leaderboard</Text>
-                <View style={styles.FormView}></View>
+                <View style={styles.FormView}>
+                    <Text style={styles.ScoreFormat}>1. 100</Text>
+                    <Text style={styles.ScoreFormat}>2. 100</Text>
+                    <Text style={styles.ScoreFormat}>3. 98</Text>
+                    <Text style={styles.ScoreFormat}>4. 97</Text>
+                    <Text style={styles.ScoreFormat}>5. 97</Text>
+                    <Text style={styles.ScoreFormat}>6. 93</Text>
+                    <Text style={styles.ScoreFormat}>7. 90</Text>
+                    <Text style={styles.ScoreFormat}>8. 87</Text>
+                    <Text style={styles.ScoreFormat}>9. 87</Text>
+                    <Text style={styles.ScoreFormat}>10. 85</Text>
+                </View>
 
             </ScrollView>
         </LinearGradient>
@@ -48,11 +59,12 @@ const styles = StyleSheet.create({
         color: '#000',
         fontSize: 40,
         fontWeight: 'bold',
-        marginLeft: 30,
-        marginTop: 5,
+        marginLeft: '23%',
+        marginTop: 15,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+        position:'absolute'
     },
     FormView: {
         width: '100%',
@@ -65,6 +77,11 @@ const styles = StyleSheet.create({
         color: '#000',
         marginLeft: 5,
         marginTop: 10,
+    },
+    ScoreFormat: {
+        fontSize: 30,
+        fontWeight: 'bold',
+        paddingTop: 10,
     }
 })
 
