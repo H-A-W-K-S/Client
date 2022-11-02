@@ -12,16 +12,16 @@ const Leaderboard = ({ navigation }) => {
                 <BackIcon onPress={() => navigation.navigate('mainPage')} style={styles.Icon} name="chevron-left" size={60} color={'#fff'} />
                 <Text style={styles.Heading}>Leaderboard</Text>
                 <View style={styles.FormView}>
-                    <Text style={styles.ScoreFormat}>1. 100</Text>
-                    <Text style={styles.ScoreFormat}>2. 100</Text>
-                    <Text style={styles.ScoreFormat}>3. 98</Text>
-                    <Text style={styles.ScoreFormat}>4. 97</Text>
-                    <Text style={styles.ScoreFormat}>5. 97</Text>
-                    <Text style={styles.ScoreFormat}>6. 93</Text>
-                    <Text style={styles.ScoreFormat}>7. 90</Text>
-                    <Text style={styles.ScoreFormat}>8. 87</Text>
-                    <Text style={styles.ScoreFormat}>9. 87</Text>
-                    <Text style={styles.ScoreFormat}>10. 85</Text>
+                    <Text style={styles.ScoreFormat}>1. Banana 100</Text>
+                    <Text style={styles.ScoreFormat}>2. Grape 100</Text>
+                    <Text style={styles.ScoreFormat}>3. Ohio 98</Text>
+                    <Text style={styles.ScoreFormat}>4. Strawberry 97</Text>
+                    <Text style={styles.ScoreFormat}>5. Blueberry 97</Text>
+                    <Text style={styles.ScoreFormat}>6. Monkey 93</Text>
+                    <Text style={styles.ScoreFormat}>7. Apple 90</Text>
+                    <Text style={styles.ScoreFormat}>8. Wyoming 87</Text>
+                    <Text style={styles.ScoreFormat}>9. Kiwi 87</Text>
+                    <Text style={styles.ScoreFormat}>10. Pamagrante 85</Text>
                 </View>
 
             </ScrollView>
