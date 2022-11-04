@@ -1,12 +1,12 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import SignIn from './screens/SignIn';
-import SignUp from './screens/SignUp';
 import MainPage from './screens/MainPage';
 import MergeSplit from './screens/MergeSplit';
 import Leaderboard from './screens/LeaderBoard';
 import Settings from './screens/Setting';
+import Tutorial from './screens/Tutorial';
+import About from './screens/About';
 
 const Stack = createNativeStackNavigator();
 
@@ -16,10 +16,10 @@ const App: () => Node = () => {
       <Stack.Navigator >
         <Stack.Screen name="mainPage" component={MainPage} options={{ headerShown: false }} />
         <Stack.Screen name="leaderboard" component={Leaderboard} options={{ headerShown: false }} />
-        <Stack.Screen name="mergeSplit" component={MergeSplit} />
-        <Stack.Screen name="signIn" component={SignIn} options={{ headerShown: false }} />
-        <Stack.Screen name="signUp" component={SignUp} options={{ headerShown: false }} />
+        <Stack.Screen name="Tutorial" component={Tutorial} />
         <Stack.Screen name="settings" component={Settings} options={{ headerShown: false }} />
+        <Stack.Screen name="MergeSplit" component={MergeSplit} options={{ headerShown: true }} />
+        <Stack.Screen name="About" component={About} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
