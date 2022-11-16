@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Text, StyleSheet, View, Image, TextInput, TouchableOpacity, ScrollView, Switch } from 'react-native';
+import React from "react";
+import { Text, StyleSheet, View, Image, ScrollView, Switch, PropTypes } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import BackIcon from 'react-native-vector-icons/Feather';
 
@@ -13,13 +13,13 @@ const Settings = ({ navigation }) => {
                 <Text style={styles.Heading}>Settings</Text>
                 <View style={styles.FormView}>
                     <Text style={styles.ScoreFormat}>Dark mode</Text>
-                    <Switch style={styles.SwitchFormat} top={7}/>
+                    <Switch style={styles.SwitchFormat} top={7} />
                     <Text style={styles.ScoreFormat}>Audio</Text>
-                    <Switch style={styles.SwitchFormat} top={57}/>
+                    <Switch style={styles.SwitchFormat} top={57} />
                     <Text style={styles.ScoreFormat}>Haptic feedback</Text>
-                    <Switch style={styles.SwitchFormat} top={107}/>
+                    <Switch style={styles.SwitchFormat} top={107} />
                     <Text style={styles.ScoreFormat}>Haim goblin mode</Text>
-                    <Switch style={styles.SwitchFormat} top={157}/>
+                    <Switch style={styles.SwitchFormat} top={157} />
                 </View>
 
             </ScrollView>
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor:'white'
+        backgroundColor: 'white'
 
     },
     BottomView: {
@@ -63,13 +63,13 @@ const styles = StyleSheet.create({
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        position:'absolute'
+        position: 'absolute'
     },
     FormView: {
         width: '100%',
         display: 'flex',
         flexDirection: 'column',
-        textAlign:'center',
+        textAlign: 'center',
         marginLeft: 30,
         marginTop: 10,
     },
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     },
 
     SwitchFormat: {
-        position:'absolute',
+        position: 'absolute',
         color: '#FFFFFF',
         marginLeft: 5,
         marginTop: 10,

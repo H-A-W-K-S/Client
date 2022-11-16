@@ -16,7 +16,7 @@ const App: () => Node = () => {
       <Stack.Navigator >
         <Stack.Screen name="mainPage" component={MainPage} options={{ headerShown: false }} />
         <Stack.Screen name="leaderboard" component={Leaderboard} options={{ headerShown: false }} />
-        <Stack.Screen name="Tutorial" component={Tutorial} options={{ headerShown: false }}/>
+        <Stack.Screen name="Tutorial" component={Tutorial} options={{ headerShown: false }} />
         <Stack.Screen name="settings" component={Settings} options={{ headerShown: false }} />
         <Stack.Screen name="MergeSplit" component={MergeSplit} options={{ headerShown: true }} />
         <Stack.Screen name="About" component={About} options={{ headerShown: false }} />
