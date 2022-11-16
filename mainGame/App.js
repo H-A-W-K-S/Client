@@ -121,7 +121,7 @@ let l2squares = [
           case 1:
               return "r";
           break;
-          
+
           case 2:
               return "g";
           break;
@@ -206,10 +206,11 @@ function merge(arr){
   `;
   return (
     <WebView
-    originWhitelist={['*']}
-    source={{ html: documentHTML
-    }}
-  />
+      originWhitelist={['*']}
+      source={{
+        html: documentHTML
+      }}
+    />
   )
 }
 
