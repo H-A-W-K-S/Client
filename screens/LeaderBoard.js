@@ -5,7 +5,6 @@ import { LinearGradient } from 'expo-linear-gradient';
 import BackIcon from 'react-native-vector-icons/Feather';
 import { useState } from 'react';
 //import { Table, Row, Rows } from "react-native-table-component/components/table";
-import TableExample from './DataTable';
 import { DataTable } from 'react-native-paper';
 
 const Leaderboard = ({ navigation }) => {
