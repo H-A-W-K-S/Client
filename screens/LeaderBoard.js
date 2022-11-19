@@ -5,6 +5,8 @@ import BackIcon from 'react-native-vector-icons/Feather';
 import { useState } from 'react';
 import { useEffect } from "react";
 import { Table } from "react-native-table-component";
+//import { Table, Row, Rows } from "react-native-table-component/components/table";
+import { DataTable } from 'react-native-paper';
 
 //This try/catch block is basically copied from homework 3.
 const Leaderboard = ({ navigation }) => {
