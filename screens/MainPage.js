@@ -19,7 +19,6 @@ const MainPage = ({ navigation }) => {
       left:2vmin;
       top: calc(((50vmax - (100vmin/4))));
     }
-
     .bigBoxText{
       position: relative;
       color:black;
@@ -27,7 +26,6 @@ const MainPage = ({ navigation }) => {
       left:15vmin;
       top:8.5vmin;
     }
-
     .smallBox {
       position: absolute;
       height: 22.5vmin;
@@ -35,7 +33,6 @@ const MainPage = ({ navigation }) => {
       border-radius: 3.2vmin;
       top: calc(((50vmax - (100vmin/4))));
     }
-
     .bigImg {
         position: relative;
         width: 20vmin;
@@ -43,7 +40,6 @@ const MainPage = ({ navigation }) => {
         top: 13.5vmin;
         left: 13.5vmin;
     }
-
     .smallImg {
         position: relative;
         width: 13vmin;
@@ -51,8 +47,6 @@ const MainPage = ({ navigation }) => {
         top: 4.75vmin;
         left: 4.75vmin;
     }
-
-
     </style>
     <html>
       <div class=bigBox   onclick='nav("MergeSplit")'>
@@ -70,14 +64,11 @@ const MainPage = ({ navigation }) => {
       <div class=smallBox onclick='nav("About")'        style='left: 75.5vmin;  background-color:#EF8B82; top: calc(24.5vmin + calc(((50vmax - (100vmin/4))))); '>
         <img class=smallImg src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAABmJLR0QA/wD/AP+gvaeTAAAEAUlEQVR4nO3cv4scZRzH8c9jgolp1EZFBD0koCcIQYwxJzZiITkCRgUvNtbaBC20Mpo/wPwPQlC0NtpYCP7IXWFhY3JJjI0iNrl46Gku8raYXVjWeyYz685+Zma/L0gzmWee7/N82Jm9Z2dGCiGEEEIIIYQQ5klyFzAJYFHSAUl3DTb9Jum7lNIPvqp6DtgLvAlcJG8deAPY4663V4BDwE8lEz/uCvCEu+5eAF4AtmpM/tAWcMxdf6cBjwF/TDD5oyHEJ2ESFOf8OqednB9p8TXhFncBJV6XdH/J/5+TdHrwb7VkvwVJr02xrvlA/tvOVeC5HfY/Amxk2lxwjKGzgEdKTin/mfyRdssl7R6e5Rg6DVjJTOK3FdquZtq+PIva62rrNeDezPavK7T9quYxrdoaQE6VpZNOLa+0NYBfMtuXKrR9quYxwzhgseRieqSk3dGSdg/NcgydR7GwtpMNYHmH/Y8C1zJtzjvG0GkUq5plVoH3gdPA2k32PeEeT+cAeyhWNf+vy8Ct7vF0EtNZjDvoHkenAceYbDn6T+B5d/29ABykWNWs6jLwuLvuXqG4JpwALpRM/PnBPp0553fqr8Yhiu/0ByTdM9j0q4of5WPVM4QQQqgDWAI+BzYn+L6fswl8Bhx2j6/VgJeA7SlO/Lht4EX3OHOsX0OBOyVdkXR7w11tSFpIKW003E9t7h9kltX85EvSHZKyvyM4uQMou+9n2hZm2Fdl7gB297SvytwB5HwoaXeqScUkf2SuvZa2BrCeUvqnbqNBm06tB7U1gLnR1gB2uQuYlVZemCS9ClyXdH1k28+SzqSUMNXUiLYGcJ+kUztsR9KZGdfSKPcpaLPm/vsbqcLIHUCVm217zRpASumcpLPOGtzcnwBJOi7pU3cRLvaLcErpmqRlihuoliTdreIO5yp3QneePYChlNKapDVJAt7VnATQhlPQXIsAzCIAswjALAIwiwDMIgCzCMAsAjCLAMwiALMIwCwCMIsAzCIAM2sAwD7gFHAJuDG8oV/SyQa6OznyzMCNQZ/vAbc10Fdlth9kgH2SvpB0yND9LkkPSnpH0rPAMymlLUMd1k/A2/JM/rgnJb3l6twZwHFj3+NecXXsDOCBCdr8PaV9xtke3nAGUPcG3IuSPq6w3yeSLjVcS/eVPNW42GCf2XfRNdXnzdiekswNevCkS+/6zYk/xMxaFwDQ2Pm4yWNPqjV3xo34APi+oWM/2tBxJ9a6a4DLPF4D6j6c0aTfXR07A2jTwxm5N643znkKOizpS/mvQ9uSnh48LDJztk9ASukbSSsq3mTiclXSimvypRa8NREYvslkv6S9M+r2L0nrks628RU2IYQQQgghhBBCf/0LEop+H6kzVWcAAAAASUVORK5CYII='/>
       </div>
-
       </html>
     <script>
-
     function nav(screen){
         window.ReactNativeWebView.postMessage(screen);
     }
-
     </script>
   `;
 
@@ -100,4 +91,3 @@ const MainPage = ({ navigation }) => {
 }
 
 export default MainPage;
-
