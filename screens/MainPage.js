@@ -1,5 +1,5 @@
 import React from "react";
-import { WebView } from 'react-native-webview';
+import { WebView, Modal, View } from 'react-native-webview';
 // ^ install using this: npx expo install react-native-webview@11.23.0
 /**
  *
