@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { WebView } from 'react-native-webview';
+import { Alert } from "react-native";
 
-const GameScreen = () => {
+const GameScreen = ({ navigation }) => {
   let documentHTML = `
   <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0">
   <style>
@@ -13,47 +14,22 @@ const GameScreen = () => {
     width: 10.625vmin;
     border-radius: 2.2vmin;
   }
-  .controlBox {
-    position: absolute;
-    background-color:#ededed;
-    border-color:transparent;
-    height: 18vmin;
-    width: 18vmin;
-    border-radius: 2.2vmin;
-    top: calc(((100vmax - 100vmin)/2) + 98vmin);
-    left: 41vmin;
-  }
-  .undoButton {
+
+  .refreshButton {
     position: absolute;
     background-color:#B1DE8C;
     border-color:transparent;
-    height: 7.5vmin;
-    width: 7.5vmin;
+    height: 10.625vmin;
+    width: 10.625vmin;
     border-radius: 2.2vmin;
-    top: calc(((100vmax - 100vmin)/2) + 107.5vmin);
-    left: 42vmin;
+    bottom: calc(((100vmax - 100vmin)/2.5));
+    right: 4vmin;
   }
-  .undoIcon {
+  .refreshIcon {
     position: absolute;
-    width: 5.5vmin;
-    top: calc(((100vmax - 100vmin)/2) + 108.5vmin);
-    left: 43vmin;
-  }
-  .restartButton {
-    position: absolute;
-    background-color:#EF8B82;
-    border-color:transparent;
-    height: 7.5vmin;
-    width: 7.5vmin;
-    border-radius: 2.2vmin;
-    top: calc(((100vmax - 100vmin)/2) + 107.5vmin);
-    left: 50.5vmin;
-  }
-  .restartIcon {
-    position: absolute;
-    width: 5.5vmin;
-    top: calc(((100vmax - 100vmin)/2) + 108.5vmin);
-    left: 51.5vmin;
+    width: 7vmin;
+    bottom: calc(((100vmax - 100vmin)/2.5) + 1.8125vmin);
+    right: 5.8125vmin;
   }
 
   .mergeButton {
@@ -78,9 +54,9 @@ const GameScreen = () => {
 
   .scoreText {
     position:absolute;
-    top: calc(((100vmax - 100vmin)/2) + 99vmin);
-    left: 48.25vmin;
-    font-size: 6vmin;
+    top: calc(((100vmax - 100vmin)/2.5));
+    left: 2vmin;
+    font-size: 7vmin;
     font-family: 'monospace';
     font-weight: 700;
     color:4f4f4f;
@@ -104,38 +80,326 @@ const GameScreen = () => {
 
   </style>
   <html>
+  <div class=scoreText id="scoreDisplay">100</div>
   <div class=gameBackground></div>
-  <div class=controlBox></div>
-    <div class=scoreText id="scoreDisplay">0</div>
-    <div class=undoButton></div>
-      <img class=undoIcon onclick='undo();' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAABmJLR0QA/wD/AP+gvaeTAAAEeklEQVR4nO2cT4gcRRTGv0o2EIgYFD0ENHpQs5H4DyMLQdSDf1AUvAp6UAQ9COI1XhVBRAgexeDJgx5ERYLo4opJMIKI8SCaS2TNRdDdZBezsll/HnqQYdjp6uru6te9vh/MqWfe++p7NdVV3dUtOY7jOI7jOI7jOI7jOP8XgrWAtgD2S7pH0h2SbpC0V9IVknZKWpf0l6Q/JJ2R9Iukk5KOhxCWTQRvBYCDwJvAOeqxAXwFPA9cad2eQQAE4HHgRE3Tp7EKHAGus25jMsAMsL2DPHcCJ1s2fpI14FVgV+72NAa4CfgcuDT6fAHcniHPDuB1iiGjK34F7m67La0B3AasbCJ8BTjQYp69wKkOjR9nHXgZ6N9kBfi0RPgnLeU4APzWhdMRjgIzbbSpNShOWtO40EL8OeDPTuytxodkKELtvxZAaeAQmsSek/SZpN2JPz0t6ZikE5J+knQuhHBxFPNqSderWCfcK+lRSZcnxj8q6dkQQmnbOyHWXRrEnQOWE3rm38A7wK2JeXYCTwI/JP4TDtdtW6vkKEAN848BNzZsRwCeBn6vmHOdPsyO2i5AovlrwAu0ODsB9gDzFfOfxXqd0GYBKBZYVU+4K8CDmdq0HXi7oo5XcmhIEdtKAUjr+csUJ+ic7QrAuxW0rGF52aKNAvTN/DFdM1Qbjo50oWeayEYF6Kv5Y/r2ED8xr2J1FbVJAUgb8zs3f0znMxX0PWehrXYB6HnPn9C6DTgd0bhgJS65AEMyf0zzUxGdl4DUFXsrwpIKwECGnUkoVsyxTvNI3fjb2hQ7jZGZ8yru0cY4L+mhEMKpvKqqEUJYU3F9qYxDdeNnLwBpF9Z6Zf4YsXF+XycqxqkyBDHAMX8zRu0o43sLUTG2hPmSBFwV0b9oIaqKqYM3X/pvZVzGUt3YOc8BQx7zJ9mQ9E/J8R11A3cyC5rCUMyXpF0q92q1bmCrAgzJfEm6JnK89j1wiwIMzXxJmo0cP1s3cNcFGKL5khS7BXmmbuCuC7Bb0jcVZ0fTOA98BNzcoe6HI8drrwOybUvpgFVJh0IIP+ZMQrHVMmbwbAjh5zrxLWdBTblM0hsd5HkpcnyxrvnSsAsgSfeRcVc2MCvpicjXPmiSo0kBVpok7jsUW17eUnyR9V6TPE0KMN8kcUsshBA2MsV+UdL9ke8cDyF8lyl/OcA+bDfPXgBuydS2Byi2PMZ4LEf+FKHXAu9TTA27Yolip/L+TG2aoyhujK/p43MDQ4bqt003gIPWercUpN2/eM1a75YioecDfAvUvvzsTJDY8xeB2JVRpyqJPX+ZxIdAnBISe37vb5sOiho9381vCzffEDffEDffEDffEDffEDffEDffEDffEDffEDffEDffEDffEDffEDffEDffEDffEDffEDffEDffEDffEDffEDffEIrt70tuvhGUv53dzc8JxQtUqzwg4ebngOLtJOtuviHAgptvCHAXcHET85fc/I4YFeHL0XC0BnxMw9fVOzUYnZSH/lC54ziO4ziO4ziO0wf+BU3iR1rKriw9AAAAAElFTkSuQmCC'/>
-    <div class=restartButton></div>
-      <img class=restartIcon src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFoAAABaCAYAAAA4qEECAAAABmJLR0QA/wD/AP+gvaeTAAACgUlEQVR4nO2czU4UQRhFb7sA34ywMGqizzQ8hu6NEk1AX0h8BDQxl8V0iQk9zXRP1fdTfU8yYUXV+U6GGjIDBQghhBBCCCGEEEKIJ5A8J3lF8m58XJE89/Y6lhT+JM9IfuVTvpN86e33HCn8ZyTjyU6Qwv8IyTiyE6TwXyDpLztBCv8VkqFip/Dn/tX5ZoVk4YaOr+Zp/Ln/tedUXGJXiFzYWcjeVRAljY8Rrj8upvi1dP8XLYY6kgsA1xaxSZ4B+ATgVaUl/y79hjWhP6z4nkNcAPjMhsfIuPY16kUGgI8V15qG9c65/2lyZmdyPTRAzfOuUPXMzuCYfpDIbt0MFNGpCpEGi+TShAgDRnAwwXNQz71d8BjYY88QWA5uuVdILAJY7JGCliFart2qx9BqYeDf+wxfAFxWXPZ2/Fp7zbfDMPyuuKYtjZ59Ncl3XByCcWP3E7nAeLH7i1xgnNj9Ri7QP3b/kQuOsbcTueAQe3uRC4axtxu5YBBbkQsNY4eJ7Pl3HcKShs/mcM9qNwwiK7Zh5O3Gdoi8vdiOkbcTO0DkQr+xGSdyob/YjBe50E9sxo1cMImtD2cf18z54Sz15wbtsQhhsUdoLANY7hUKj8E99nTFc2DPvU2JMGgEh6ZEGjCSS1UiDhbR6SQiDxTZrbtBMjg+N0Caf/vN5DolX+O+DjNxtomd6r4O0uhHkfWPkVT3dfwA8GYYhvvWGw3D8AfAOwDfKi2Z5r6OWwCvLSIXxtjv8fg26ymkuK9Dl1ctkI1/nVkv/itkQ0QupPJfIBsqciGV/xGy/pIzpPKfkY0jOUMqf+5fzXckf46PHaNddD1Ddn8hhBBCCCGEEEIISx4AgjuniZaK5fIAAAAASUVORK5CYII='/>
   </html>
   <script>
-  window.ReactNativeWebView.postMessage('Data from WebView / Website');
+// start colorpopulate
+
+colors = ['r','g','b','o']
+mainColor = colors[Math.floor(Math.random() * 4)];
+//console.log(mainColor)
+
+
+oldTiles = [];
+let smallGrid = [['0','0','0','0','0','0','0','0'], 
+        ['0','0','0','0','0','0','0','0'],
+        ['0','0','0','0','0','0','0','0'],
+        ['0','0','0','0','0','0','0','0'],
+        ['0','0','0','0','0','0','0','0'],
+        ['0','0','0','0','0','0','0','0'],
+        ['0','0','0','0','0','0','0','0'],
+        ['0','0','0','0','0','0','0','0'],]
+
+let grid = [['H','H','H','H','H','H','H','H','H','H','H','H','H','H','H','H'], 
+        ['H','G','G','G','G','G','G','G','G','G','G','G','G','G','G','H'],
+        ['H','G','F','F','F','F','F','F','F','F','F','F','F','F','G','H'],
+        ['H','G','F','E','E','E','E','E','E','E','E','E','E','F','G','H'], 
+        ['H','G','F','E','D','D','D','D','D','D','D','D','E','F','G','H'],
+        ['H','G','F','E','D','C','C','C','C','C','C','D','E','F','G','H'],
+        ['H','G','F','E','D','C','B','B','B','B','C','D','E','F','G','H'], 
+        ['H','G','F','E','D','C','B','A','A','B','C','D','E','F','G','H'],
+        ['H','G','F','E','D','C','B','A','A','B','C','D','E','F','G','H'],
+        ['H','G','F','E','D','C','B','B','B','B','C','D','E','F','G','H'], 
+        ['H','G','F','E','D','C','C','C','C','C','C','D','E','F','G','H'],
+        ['H','G','F','E','D','D','D','D','D','D','D','D','E','F','G','H'],
+        ['H','G','F','E','E','E','E','E','E','E','E','E','E','F','G','H'],
+        ['H','G','F','F','F','F','F','F','F','F','F','F','F','F','G','H'], 
+        ['H','G','G','G','G','G','G','G','G','G','G','G','G','G','G','H'],
+        ['H','H','H','H','H','H','H','H','H','H','H','H','H','H','H','H']]
+
+let leftX = Math.floor(Math.random() * 7); let leftY = Math.floor(Math.random() * 7)
+
+for(let x = 0; x < 8; x++){
+    for(let y = 0; y < 8; y++){
+        oldTiles.push([x+leftX,y+leftY])
+    }
+};
+
+function contains(listOfLists, list){
+    for (let i = 0; i < listOfLists.length; i++) {
+        if (listOfLists[i][0] == list[0] && listOfLists[i][1] == list[1]){
+            return true;
+        }
+    }
+}
+function del(list, item){
+    for (let i = 0; i < list.length; i++) {
+        if (list[i] === item) {
+            list.splice(i, 1)
+            i --;
+        } 
+    }
+    return list
+
+}
+
+//console.log(typeof(oldTiles[0][0]))
+ //colors the grid with the tuples from tiles
+function colorgrid(tiles){ 
+    for (let i = 0; i < tiles.length; i++){
+        if (tiles[i].length == 2){
+            let x1 = tiles[i][0]; let y1 = tiles[i][1]
+            let x2 = x1 - leftX; let y2 = y1 - leftY; let y2copy = y1 - leftY
+
+            let a = 7-y2copy; y2 = x2; x2 = a
+            smallGrid[x2][y2] = grid[x1][y1].toLowerCase()
+        }
+    }
+    return smallGrid;
+} 
+
+smallGrid = colorgrid(oldTiles)
+
+let tiles = []
+let lC=[[],[],[],[],[],[],[],[]] //lC = letterCoordinates
+
+for (let x = 0; x < 8; x++){
+    for(let y = 0; y < 8; y++){
+        tiles.push([y, 7-x,smallGrid[x][y]])
+    }
+};
+
+letters = ['a','b','c','d','e','f','g','h']
+for (let i = 0; i < tiles.length; i++){
+    let ind = letters.indexOf(tiles[i][2])
+    lC[ind].push(tiles[i])
+};
+
+
+
+function DetermineLetterRowsAndColumns(coordinates, row = true){
+    let Vals = []; 
+    for (let i = 0; i < coordinates.length; i++){
+        let repeatsy = []; let repeatsx = []
+        let yVals1 = []; let yVals2 = []
+        let xVals1 = []; let xVals2 = []
+
+        for (let j = 0; j < coordinates[i].length; j++) {
+            yVals1.push(coordinates[i][j][1]);
+            xVals1.push(coordinates[i][j][0]);
+        }
+        
+        for (let i = 0; i < 8; i++){
+            if (yVals1.filter(x => x == i).length > 1){
+                if (!(i in repeatsy)) {
+                    repeatsy.push(i)
+                }
+            }
+            if (xVals1.filter(x => x == i).length > 1){
+                if (!(i in repeatsy)) {
+                    repeatsx.push(i)
+                }
+            }
+
+        }
+        for (let i = 0; i < yVals1.length; i++){
+            for (let j = 0; j < yVals1.length; j++) {
+                if (i != j) {
+                    if (yVals1[i] == yVals1[j]){
+                        if (xVals1[i] == xVals1[j] + 1 || xVals1[i] == xVals1[j] - 1) {
+                            if (!(yVals2.includes(yVals1[i]))) {
+                                yVals2.push(yVals1[i])
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        for (let i = 0; i < xVals1.length; i++){
+            for (let j = 0; j < xVals1.length; j++) {
+                if (i != j) {
+                    if (xVals1[i] == xVals1[j]){
+                        if (yVals1[i] == yVals1[j] + 1 || yVals1[i] == yVals1[j] - 1) {
+                            if (!(xVals2.includes(xVals1[i]))) {
+                                xVals2.push(xVals1[i])
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        if (row == false){
+            Vals.push(xVals2)
+        }
+        if (row == true){
+            Vals.push(yVals2)
+        }
+    } 
+    return Vals
+    
+};
+
+function ParseRowsAndColumns(coordinates){ 
+    //xVals are x values where there are columns. yVals are y values where there are rows.
+    let yVals = DetermineLetterRowsAndColumns(coordinates,true) //lC = letters coordinates
+    let xVals = DetermineLetterRowsAndColumns(coordinates,false) //lC = letters coordinates
+    let toColor = []
+    for (let i = 0; i < 8; i++){ //go through all letters, a through h.
+        let leftColumn = []; let rightColumn=[]; let columns = []
+        let bottomRow = []; let topRow = []; let rows = []
+
+        for (let j = 0; j < coordinates[i].length; j++) { //go through all pairs
+            if (xVals[i].includes(coordinates[i][j][0])) { //coordinates are triples holding x,y,color
+                columns.push(coordinates[i][j]) //if a triple includes an x column value, add it to columns
+            }
+        }
+        for (let j = 0; j < coordinates[i].length; j++) { //go through all pairs
+            if (yVals[i].includes(coordinates[i][j][1])) { //coordinates are triples holding x,y,color
+                rows.push(coordinates[i][j]) //if a triple includes an x row value, add it to rows
+            }
+        }
+
+        if (columns.length > 1) { //split columns into left and right columns
+            let object = columns[0][0]; //reorder the triples
+            for (let i = 0; i < columns.length; i++) {
+                if (columns[i][0] == object) {
+                    leftColumn.push(columns[i]);
+                } else {
+                    rightColumn.push(columns[i]);
+                }
+            }
+        } else {
+            let leftColumn = columns
+        }
+
+        if (rows.length > 1) { //split rows into top and bottom rows
+            let object2 = rows[0][1]; //reorder the triples
+            for (let i = 0; i < rows.length; i++) {
+                if (rows[i][1] == object2) {
+                    topRow.push(rows[i]);
+                } else {
+                    bottomRow.push(rows[i])
+                }
+            }
+        } else {
+            let topRow = rows
+        }
+    
+
+        let t = 0; let b = 0; let l = 0; let r = 0
+        if (topRow.length > 0) {
+            t = topRow[Math.floor(Math.random() * topRow.length)] //top
+        }
+        if (bottomRow.length > 0) {
+            b = bottomRow[Math.floor(Math.random() * bottomRow.length)] //bottom
+        }
+
+        if (leftColumn.length > 0) {
+            if (leftColumn.includes(b)) { //dont select the same square for a row and a column
+                del(leftColumn, b);
+            }
+            if (leftColumn.includes(t)) {
+                del(leftColumn, t)
+            }
+            if (leftColumn.length > 0) {
+                l = leftColumn[Math.floor(Math.random() * leftColumn.length)]
+            }
+        }
+        if (rightColumn.length > 0) {
+            if (rightColumn.includes(b)) { //dont select the same square for a row and a column
+                del(rightColumn, b);
+            }
+            if (rightColumn.includes(t)) {
+                del(rightColumn, t)
+            }
+            if (rightColumn.length > 0) {
+                r = rightColumn[Math.floor(Math.random() * rightColumn.length)]
+            }
+        }
+        if (t != 0){
+            toColor.push(t);
+        }
+        if (b != 0){
+            toColor.push(b);
+        }
+        if (l != 0){
+            toColor.push(l);
+        }
+        if (r != 0){
+            toColor.push(r);
+        }
+    }     
+    return toColor
+}
+
+toBeColored = ParseRowsAndColumns(lC)
+for (let i = 0; i < toBeColored.length; i++){
+    toBeColored[i] = toBeColored[i].slice(0,2) //just keep coordinates
+} 
+
+let finalTiles = [];
+for (let x = 0; x < 8; x++) {
+    for (let y = 0; y < 8; y++) {
+        if (contains(toBeColored, [x,y])) {
+            finalTiles.push([x,y,mainColor])
+        } else {
+            finalTiles.push([x,y,colors[Math.floor(Math.random() * 4)]]) 
+        }
+    }
+}
+
+
+function finishGrid(tiles) {
+    for (let i = 0; i < tiles.length; i++) {
+        if (tiles[i].length > 2) {
+            let x = tiles[i][0]; let y = tiles[i][1]; let copyy = tiles[i][1]
+            let a = 7 - copyy; y = x; x = a //MAY NEED TO BE CHANGED TO COPYY
+            smallGrid[x][y] = tiles[i][2]
+        }
+    }
+
+}          
+finishGrid(finalTiles)
+// console.log(mainColor) //UNCOMMENT TO CREATE GRID
+// for (let i = 0; i < smallGrid.length; i++) {
+//     console.log(smallGrid[i]);
+// } 
+function getGrid(){
+    return smallGrid
+}
+
+
+// end colorpopulate
+
+  //window.ReactNativeWebView.postMessage('Data from WebView / Website');
+
+
 // let cells = [ // code results generated by caleb's python program
-// ['b', 'b', 'b', 'b', 'b', 'r', 'b', 'b'],
-// ['o', 'g', 'r', 'b', 'b', 'g', 'b', 'b'],
-// ['g', 'b', 'b', 'b', 'b', 'b', 'r', 'b'],
-// ['b', 'b', 'b', 'b', 'b', 'o', 'b', 'b'],
-// ['o', 'b', 'g', 'b', 'b', 'o', 'b', 'b'],
-// ['b', 'b', 'b', 'b', 'b', 'b', 'b', 'b'],
-// ['o', 'b', 'b', 'o', 'b', 'b', 'b', 'g'],
-// ['b', 'b', 'b', 'b', 'b', 'o', 'b', 'b'],
+// ['g', 'b', 'o', 'b', 'b', 'b', 'o', 'g'],
+// ['o', 'b', 'o', 'b', 'b', 'g', 'r', 'b'],
+// ['b', 'o', 'b', 'g', 'b', 'b', 'b', 'b'],
+// ['b', 'b', 'b', 'o', 'b', 'o', 'b', 'b'],
+// ['g', 'b', 'g', 'g', 'o', 'b', 'b', 'b'],
+// ['r', 'b', 'b', 'g', 'b', 'b', 'o', 'g'],
+// ['b', 'b', 'g', 'b', 'b', 'b', 'b', 'b'],
+// ['o', 'b', 'g', 'o', 'b', 'o', 'o', 'o']
 // ];
 
+let cells = getGrid(); 
+// alert(cells);
+// alert(mainColor);
 
-let cells = [
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0]
-];
+// let cells = [
+//   [0, 0, 0, 0, 0, 0, 0, 0],
+//   [0, 0, 0, 0, 0, 0, 0, 0],
+//   [0, 0, 0, 0, 0, 0, 0, 0],
+//   [0, 0, 0, 0, 0, 0, 0, 0],
+//   [0, 0, 0, 0, 0, 0, 0, 0],
+//   [0, 0, 0, 0, 0, 0, 0, 0],
+//   [0, 0, 0, 0, 0, 0, 0, 0],
+//   [0, 0, 0, 0, 0, 0, 0, 0]
+// ];
 
 let previousCells = [
   [0, 0, 0, 0, 0, 0, 0, 0],
@@ -150,16 +414,16 @@ let previousCells = [
 
 
 
-//randomly fill cells
-for (let rx = 0; rx < 8; rx++){
-  for (let ry = 0; ry < 8; ry++){
-      cells[rx][ry] = randomColor();
-  }
-}
+// //randomly fill cells
+// for (let rx = 0; rx < 8; rx++){
+//   for (let ry = 0; ry < 8; ry++){
+//       cells[rx][ry] = randomColor();
+//   }
+// }
 
 
 let scoreDisplay = document.getElementById("scoreDisplay");
-let merges = 0;
+let merges = 100; // 7x7
 //7x7 grid of l2squares (extra row/column added for edge case redundancy)
 let l2squares = [
   [false, false, false, false, false, false, false, false],
@@ -233,6 +497,8 @@ let l3squares = [
   ])
   if(l2squares[x][y]){ //split
       // copy here
+      merges--;
+      scoreDisplay.innerHTML = merges;
       l2squares[x][y] = false;
       updatel2squares();
   } else if(result != "none" && handlel2Merge(x,y)){
@@ -245,7 +511,7 @@ let l3squares = [
       l2squares[x][y] = true;
       updatel2squares();
       updateCells();
-      merges++
+      merges--;
       scoreDisplay.innerHTML = merges;
   }
     }
@@ -300,6 +566,10 @@ let l3squares = [
             let cellInQuestion = document.getElementById("cell" + ux + "_" + uy);
               cellInQuestion.style.backgroundColor = getColor(cells[ux][uy]);
           }
+        }
+        if(checkIfWon() == true){
+          window.ReactNativeWebView.postMessage(merges);
+          // reactnative alert
         }
     }
 
@@ -415,12 +685,65 @@ function merge(arr){
   }
   return "none";
 }
+
+function checkIfWon(){
+
+  for(let colorNum = 2; colorNum <= 4; colorNum++){
+  let selectedColorTally = 0;
+  let selectedColor = "";
+  switch("" + colorNum){
+    case "1":
+      selectedColor = "r";
+    break;
+    case "2":
+      selectedColor = "g";
+    break;
+    case "3":
+      selectedColor = "b";
+    break;
+    case "4":
+      selectedColor = "o";
+    break;
+  }
+
+  for(let x = 0; x < 8; x++){
+    for(let y = 0; y < 8; y++){
+      if(cells[x][y] == selectedColor){
+        selectedColorTally++;
+      }
+    }
+  }
+
+  if(selectedColorTally == 64){
+    return true;
+    alert("beans! " + selectedColor);
+  } 
+  }
+
+  return false;
+}
+
+
+
   </script>
   `;
 
   function onMessage(data) {
-    //alert(data.nativeEvent.data);
+    Alert.alert(
+      "Game Summary",
+      "Win Status: True \nScore: " + (data.nativeEvent.data-1).toString() + "\nParticipant ID: 2 \n \nThe test is complete. Thank you for participating! We will use your feedback to improve our app in the future.",
+      //"Score: " + data.nativeEvent.data-1,
+      [
+        {
+          text: " ",
+          //onPress: () => navigation.navigate(leaderboard)
+        },
+      ],
+      { }
+    );
   }
+
+
 
   return (
     <WebView
