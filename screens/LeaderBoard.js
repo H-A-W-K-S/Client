@@ -15,7 +15,7 @@ const Leaderboard = ({ navigation }) => {
 
     const getTitle = async () => {
         try {
-            const response = await fetch('https://mergesplit-service.herokuapp.com/scores');
+            const response = await fetch('https://mergesplit-services.herokuapp.com/scores');
             const json = await response.json();
             setData(json);
         } catch (error) {
