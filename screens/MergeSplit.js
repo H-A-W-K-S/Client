@@ -15,6 +15,28 @@ const GameScreen = ({ navigation }) => {
     border-radius: 2.2vmin;
   }
 
+  .winBox {
+    position: absolute;
+    background-color:#B1DE8C88;
+    border-color:transparent;
+    height: 96vmin;
+    width: 96vmin;
+    border-radius: 3vmin;
+    top: calc((100vmax - 100vmin)/2);
+    left: 2vmin;
+  }
+
+  .loseBox {
+    position: absolute;
+    background-color:#EF8B8288;
+    border-color:transparent;
+    height: 96vmin;
+    width: 96vmin;
+    border-radius: 3vmin;
+    top: calc((100vmax - 100vmin)/2);
+    left: 2vmin;
+  }
+
   .refreshButton {
     position: absolute;
     background-color:#B1DE8C;
@@ -80,7 +102,7 @@ const GameScreen = ({ navigation }) => {
 
   </style>
   <html>
-  <div class=scoreText id="scoreDisplay">100</div>
+  <div class=scoreText id="scoreDisplay">64</div>
   <div class=gameBackground></div>
   </html>
   <script>
@@ -423,7 +445,7 @@ let previousCells = [
 
 
 let scoreDisplay = document.getElementById("scoreDisplay");
-let merges = 100; // 7x7
+let merges = 64;
 //7x7 grid of l2squares (extra row/column added for edge case redundancy)
 let l2squares = [
   [false, false, false, false, false, false, false, false],
@@ -435,6 +457,45 @@ let l2squares = [
   [false, false, false, false, false, false, false, false],
   [false, false, false, false, false, false, false, false]
 ];
+
+// create l2squares that already exist
+
+for (let rx = 0; rx < 7; rx++){
+  for (let ry = 0; ry < 7; ry++){
+      if(cells[rx][ry] == "r" &&
+         cells[rx][ry+1] == "r" &&
+         cells[rx+1][ry+1] == "r" &&
+         cells[rx+1][ry] == "r"
+        ){
+          l2squares[rx][ry] == true;
+        }
+
+        if(cells[rx][ry] == "g" &&
+         cells[rx][ry+1] == "g" &&
+         cells[rx+1][ry+1] == "g" &&
+         cells[rx+1][ry] == "g"
+        ){
+          l2squares[rx][ry] == true;
+        }
+
+        if(cells[rx][ry] == "b" &&
+         cells[rx][ry+1] == "b" &&
+         cells[rx+1][ry+1] == "b" &&
+         cells[rx+1][ry] == "b"
+        ){
+          l2squares[rx][ry] == true;
+        }
+
+        if(cells[rx][ry] == "o" &&
+         cells[rx][ry+1] == "o" &&
+         cells[rx+1][ry+1] == "o" &&
+         cells[rx+1][ry] == "o"
+        ){
+          l2squares[rx][ry] == true;
+        }
+  }
+}
+
 
 let previousl2Squares = l2squares;
 
@@ -479,6 +540,8 @@ let l3squares = [
   updateCells();
   updatel2squares();
   updatel3squares();
+
+  document.write("<div class='winLoseBoxGoesHere'></div>");
 
   // -- only called functions past this point -- //
 
@@ -567,9 +630,16 @@ let l3squares = [
               cellInQuestion.style.backgroundColor = getColor(cells[ux][uy]);
           }
         }
-        if(checkIfWon() == true){
+
+        if(checkIfWon() == true){ // you won!
+          let WLBox = document.getElementByID("winLoseBoxGoesHere");
+          WLBox.innerHTML = "<div class=winBox></div>";
           window.ReactNativeWebView.postMessage(merges);
           // reactnative alert
+        }
+        if(merges < 0){ // you lost
+          let WLBox = document.getElementByID("winLoseBoxGoesHere");
+          WLBox.innerHTML = "<div class=loseBox></div>";
         }
     }
 
@@ -716,7 +786,7 @@ function checkIfWon(){
 
   if(selectedColorTally == 64){
     return true;
-    alert("beans! " + selectedColor);
+    //alert("beans! " + selectedColor);
   } 
   }
 
