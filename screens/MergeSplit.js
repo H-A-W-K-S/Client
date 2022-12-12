@@ -26,6 +26,32 @@ const GameScreen = ({ navigation }) => {
     left: 2vmin;
   }
 
+  .inputText {
+    position: absolute;
+    background-color:#ededed88;
+    border-color:transparent;
+    height: 15%;
+    width: 100%;
+    border-radius: 3vmin;
+    top: 42.5%;
+    font-size: 7vmin;
+    font-family: 'monospace';
+    font-weight: 700;
+    color:4f4f4f;
+    outline: none
+  }
+
+  .okbutton{
+    position: absolute;
+    background-color:#b1b1b1;
+    border-color:transparent;
+    height: 12vmin;
+    width: 25%;
+    border-radius: 2.2vmin;
+    top: 57%;
+    left: 37.5%;
+  }
+
   .loseBox {
     position: absolute;
     background-color:#EF8B8288;
@@ -44,7 +70,7 @@ const GameScreen = ({ navigation }) => {
     height: 10.625vmin;
     width: 10.625vmin;
     border-radius: 2.2vmin;
-    bottom: calc(((100vmax - 100vmin)/2.5));
+    bottom: calc(((100vmax - 100vmin)/2.4));
     right: 4vmin;
   }
   .refreshIcon {
@@ -467,7 +493,7 @@ for (let rx = 0; rx < 7; rx++){
          cells[rx+1][ry+1] == "r" &&
          cells[rx+1][ry] == "r"
         ){
-          l2squares[rx][ry] == true;
+          l2squares[rx][ry] = handlel2Merge(rx, ry);
         }
 
         if(cells[rx][ry] == "g" &&
@@ -475,7 +501,7 @@ for (let rx = 0; rx < 7; rx++){
          cells[rx+1][ry+1] == "g" &&
          cells[rx+1][ry] == "g"
         ){
-          l2squares[rx][ry] == true;
+          l2squares[rx][ry] = handlel2Merge(rx, ry);
         }
 
         if(cells[rx][ry] == "b" &&
@@ -483,7 +509,7 @@ for (let rx = 0; rx < 7; rx++){
          cells[rx+1][ry+1] == "b" &&
          cells[rx+1][ry] == "b"
         ){
-          l2squares[rx][ry] == true;
+          l2squares[rx][ry] = handlel2Merge(rx, ry);
         }
 
         if(cells[rx][ry] == "o" &&
@@ -491,7 +517,7 @@ for (let rx = 0; rx < 7; rx++){
          cells[rx+1][ry+1] == "o" &&
          cells[rx+1][ry] == "o"
         ){
-          l2squares[rx][ry] == true;
+          l2squares[rx][ry] = handlel2Merge(rx, ry);
         }
   }
 }
@@ -541,9 +567,17 @@ let l3squares = [
   updatel2squares();
   updatel3squares();
 
-  document.write("<div class='winLoseBoxGoesHere'></div>");
+  document.write("<span id='winLoseBoxGoesHere'> </span>");
+  //document.write("<div class=okButton></div>");
+  let WLB1 = document.getElementById('winLoseBoxGoesHere');
+  //WLB1.innerHTML = "<div class=winBox></div>";
+  
 
   // -- only called functions past this point -- //
+
+  function winScreen(){
+    //WLB1.innerHTML = "<div class=winBox></div>";
+  }
 
     function handleClick(x,y){
 
@@ -562,6 +596,9 @@ let l3squares = [
       // copy here
       merges--;
       scoreDisplay.innerHTML = merges;
+      if(isDone){
+        scoreDisplay.innerHTML = '';
+      }
       l2squares[x][y] = false;
       updatel2squares();
   } else if(result != "none" && handlel2Merge(x,y)){
@@ -576,6 +613,10 @@ let l3squares = [
       updateCells();
       merges--;
       scoreDisplay.innerHTML = merges;
+
+      if(isDone){
+        scoreDisplay.innerHTML = '';
+      }
   }
     }
 
@@ -623,7 +664,17 @@ let l3squares = [
       return false;
     }
 
+    let isDone = false;
+    
     function updateCells(){
+
+      if(2 > merges){ 
+        alert("You lost"); 
+        WLB1.innerHTML = "<div class=loseBox> <input type='text' class='inputText'> </div>";
+        isDone = true;
+
+      }
+
         for(let ux = 0; ux < 8; ux++){
           for(let uy = 0; uy < 8; uy++){
             let cellInQuestion = document.getElementById("cell" + ux + "_" + uy);
@@ -631,15 +682,10 @@ let l3squares = [
           }
         }
 
-        if(checkIfWon() == true){ // you won!
-          let WLBox = document.getElementByID("winLoseBoxGoesHere");
-          WLBox.innerHTML = "<div class=winBox></div>";
-          window.ReactNativeWebView.postMessage(merges);
-          // reactnative alert
-        }
-        if(merges < 0){ // you lost
-          let WLBox = document.getElementByID("winLoseBoxGoesHere");
-          WLBox.innerHTML = "<div class=loseBox></div>";
+        if(checkIfWon() == true){
+          // WLB1.innerHTML = "<div class=winBox></div>";
+          // window.ReactNativeWebView.postMessage(merges);
+          alert("You won");
         }
     }
 
