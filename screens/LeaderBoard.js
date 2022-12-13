@@ -24,6 +24,24 @@ const Leaderboard = ({ navigation }) => {
             setLoading(false);
         }
     }
+    
+    //This was supposed to write to the database, but we could not get that working.
+    const pushData = async () => {
+        try {
+            const res = await fetch('https://mergesplit-services.herokuapp.com/scores', { //Developed from https://reactnative.dev/docs/network and the Be-A-Ruby team project.
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    id: 111,
+                    name: 'myName',
+                    score: 26654465654
+                })
+            });
+        }
+        catch (error) {
+            console.error("Error", error);
+        }
+    }
 
     useEffect(() => {
         getTitle();
